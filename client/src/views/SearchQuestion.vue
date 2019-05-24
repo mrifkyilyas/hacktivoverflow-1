@@ -59,6 +59,13 @@ export default {
         .then(({ data }) => {
           console.log("berhasil");
           this.$route.push('/watchedtag')
+            Swal.fire({
+            title:"berhasil add watchedtag",
+            animation: false,
+            customClass: {
+              popup: "animated swing"
+            }
+          });
 
         })
         .catch(err => {

@@ -8,7 +8,9 @@
       <div class="col-7 main">
         <router-view/>
       </div>
-      <div class="col-3"></div>
+      <div class="col-3">
+        <RightSidebar/>
+      </div>
     </div>
     <Footer/>
   </div>
@@ -19,10 +21,12 @@ import List from "@/components/List.vue";
 import Navbar from "@/components/Navbar.vue";
 import LeftBar from "@/components/LeftSidebar.vue";
 import Footer from "@/components/Footer.vue";
+import RightSidebar from "@/components/RightSidebar.vue"
 export default {
   components: {
     Navbar,
-    LeftBar,Footer
+    LeftBar,Footer,
+    RightSidebar
   },
   created() {
     if (localStorage.access_token) {

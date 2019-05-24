@@ -64,7 +64,7 @@ class questionController {
   static getOne(req, res) {
     Question
       .findById(req.params.id)
-      .populate('answers user')
+      .populate('answers user view')
       .exec((err, docs) => {
         if (err) {
           res.status(500).json(err);
@@ -112,6 +112,36 @@ class questionController {
           question.upvotes = question.upvotes.filter(el => el != req.userLogin)
           return question.save()
         }
+      })
+      .then(data => {
+        res.status(200).json(data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  static addView(req, res) {
+    console.log('masuk sini')
+    Question
+      .findById(req.params.id)
+      .populate('user')
+      .populate({
+        path: 'answers',
+        populate: {
+          path: 'user'
+        }
+      })
+      .then(question => {
+        console.log('dapet')
+        let view = question.view.indexOf(req.userLogin) < 0
+        console.log(view)
+
+        if (view) {
+          console.log('masuk add viwq')
+          question.view.push(req.userLogin)
+        }
+        return question.save()
       })
       .then(data => {
         res.status(200).json(data)
@@ -180,11 +210,11 @@ class questionController {
   }
 
   static editQuestion(req, res) {
-    const { title, description,tags } = req.body
+    const { title, description, tags } = req.body
     tagChek(tags)
     Question
       .findByIdAndUpdate(req.params.id, {
-        title, description,tags
+        title, description, tags
       })
       .then(question => {
         res.status(200).json(question)

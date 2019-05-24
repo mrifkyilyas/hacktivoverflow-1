@@ -25,6 +25,10 @@ const QuestionSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Answer',
   }],
+  view: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }],
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

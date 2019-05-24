@@ -8,6 +8,7 @@ router.post('/register',userContr.register)
 router.post('/login',userContr.login)
 router.post('/watchedtag',auth,userContr.watchedTag)
 router.get('/getdata',auth,userContr.getdata)
+router.get('/getjob',userContr.getJob)
 
 
 

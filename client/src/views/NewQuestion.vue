@@ -27,7 +27,13 @@
         </div>
         <div>
           <p class="text-left">Tags</p>
-          <vue-tags-input v-model="tag" :tags="tags" @tags-changed="newTags => tags = newTags"/>
+          <input-tag
+            placeholder="Add Tagss"
+            v-model="tags"
+            :add-tag-on-blur="true"
+            :limit="limit"
+            validate="text"
+          ></input-tag>
         </div>
       </tab-content>
       <tab-content title="adding Title">
@@ -90,7 +96,13 @@
         <br>
         <br>
 
-        <vue-tags-input v-model="tag" :tags="tags" @tags-changed="newTags => tags = newTags"/>
+        <input-tag
+          placeholder="Add Tagss"
+          v-model="tags"
+          :add-tag-on-blur="true"
+          :limit="limit"
+          validate="text"
+        ></input-tag>
 
         <br>
         <br>
@@ -112,15 +124,15 @@
 <script>
 import { FormWizard, TabContent } from "vue-form-wizard";
 import "vue-form-wizard/dist/vue-form-wizard.min.css";
-import VueTagsInput from "@johmun/vue-tags-input";
+import InputTag from "vue-input-tag";
 import axios from "../api/axios";
 
 export default {
   components: {
     FormWizard,
     TabContent,
-    VueTagsInput,
-    wysiwyg: vueWysiwyg.default.component
+    wysiwyg: vueWysiwyg.default.component,
+    "input-tag": InputTag
   },
   data() {
     return {
@@ -130,28 +142,21 @@ export default {
       description: ""
     };
   },
-  created(){
+  created() {
     if (!localStorage.access_token) {
       this.$router.push("/login");
     }
-
-
   },
-
 
   methods: {
     addQuestion() {
-      let tagss = [];
-      this.tags.map(e => {
-        tagss.push(e.text.toLowerCase());
-      });
       axios
         .post(
           `/question`,
           {
             title: this.title,
             description: this.description,
-            tags: tagss
+            tags: this.tags
           },
           {
             headers: {

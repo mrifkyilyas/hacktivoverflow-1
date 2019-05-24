@@ -9,6 +9,7 @@ router.post('/',auth,questionContr.addQuestion)
 router.get('/:id', questionContr.getOne);
 router.post('/upvotes/:id',auth,questionContr.upvotes)
 router.post('/downvotes/:id',auth,questionContr.downvotes)
+router.post('/view/:id',auth,questionContr.addView)
 router.delete('/:id',auth,author,questionContr.delete)
 router.put('/:id',auth,author,questionContr.editQuestion)
 router.get('/tag/:tagName',questionContr.getQuestionByTag);

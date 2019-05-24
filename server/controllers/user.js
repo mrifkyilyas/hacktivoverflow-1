@@ -1,5 +1,6 @@
 const { User } = require('../models')
 const { bcrypt, jwt } = require('../helpers')
+const axios = require('axios')
 class userController {
     static register(req, res) {
         let { name, email, password } = req.body
@@ -91,6 +92,19 @@ class userController {
             .catch(err => {
                 res.status(500).json(err)
             })
+    }
+
+    static getJob(req, res) {
+        axios
+            .get('https://jobs.github.com/positions.json?description=javascript&page=1')
+            .then(({ data }) => {
+                res.status(200).json(data)
+            })
+            .catch(err => {
+                res.status(500).json(err)
+            })
+
+
     }
 }
 

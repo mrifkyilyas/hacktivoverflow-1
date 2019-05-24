@@ -15,6 +15,12 @@
               <div class="p-1">Votes</div>
             </div>
           </div>
+          <div class="p-1 col-1">
+            <div class="d-flex flex-column">
+              <div class="p-1">{{question.view.length}}</div>
+              <div class="p-1">Viewer</div>
+            </div>
+          </div>
           <div class="p-1 col-8">
             <div class="d-flex flex-column">
               <div class="p-1 text-left">

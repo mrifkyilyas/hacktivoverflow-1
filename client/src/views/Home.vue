@@ -13,6 +13,7 @@ import List from "@/components/List.vue";
 import Navbar from "@/components/Navbar.vue";
 import Control from "@/components/Control.vue";
 
+
 export default {
   name: "home",
   components: {

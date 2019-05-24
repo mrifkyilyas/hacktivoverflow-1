@@ -1,12 +1,18 @@
 <template>
   <div class="container">
     <div>
-        <br>
-    <h2>Edit Question</h2> 
+      <br>
+      <h2>Edit Question</h2>
       <br>
       <br>
 
-      <vue-tags-input v-model="tag" :tags="tags" @tags-changed="newTags => tags = newTags"/>
+      <input-tag
+        placeholder="Add Tagss"
+        v-model="tags"
+        :add-tag-on-blur="true"
+        :limit="limit"
+        validate="text"
+      ></input-tag>
 
       <br>
       <br>
@@ -21,19 +27,20 @@
 <script>
 import VueTagsInput from "@johmun/vue-tags-input";
 import axios from "../api/axios";
+import InputTag from "vue-input-tag";
 
 export default {
   components: {
     wysiwyg: vueWysiwyg.default.component,
-    VueTagsInput
+    VueTagsInput,
+    "input-tag": InputTag
   },
   data() {
     return {
       description: "",
       title: "",
       tag: "",
-      tags: [],
-      newTags:[]
+      tags: []
     };
   },
   created() {
@@ -54,14 +61,14 @@ export default {
         });
     },
     editQuestion() {
-      console.log(this.newTags);
+      console.log(this.tags, "ooooooooooooooooooooooooooo");
       axios
         .put(
           `/question/${this.$route.params.id}`,
           {
             title: this.title,
             description: this.description,
-            // tags: this.tags
+            tags: this.tags
           },
           {
             headers: {

@@ -46,15 +46,19 @@
                 <router-link :to="{ name: 'editquestion', params: { id: question._id }}">
                   <i class="fa fa-edit" aria-hidden="true" style="color:green">edit</i>
                 </router-link>
-              </div>
+              </div >
 
               <small>asked {{moment(question.createdAt).fromNow()}} by {{question.user.name}}</small>
+               <small>{{question.view.length}} View</small>
             </div>
           </div>
         </div>
       </div>
     </div>
     <hr>
+    <div >
+      <h2 >{{question.answers.length}} Answers</h2><h2></h2>
+    </div>
     <div>
       <Answer
         @aksi="getdata"
@@ -77,7 +81,11 @@ import AddAnswer from "@/components/AddAnswer.vue";
 import Answer from "@/components/Answer.vue";
 export default {
   created() {
-    this.getdata();
+    if (!localStorage.access_token) {
+      this.getdata();
+    } else {
+      this.addView();
+    }
   },
   computed: mapState(["isLogin", "name", "email"]),
   data() {
@@ -103,6 +111,26 @@ export default {
         .then(({ data }) => {
           console.log(data);
           this.question = data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    addView() {
+      console.log("ini params adddddd viewwwwww");
+      axios
+        .post(
+          "question/view/" + this.$route.params.id,
+          {},
+          {
+            headers: {
+              access_token: localStorage.access_token
+            }
+          }
+        )
+        .then(({ data }) => {
+          this.getdata();
+          this.$router.push(`/question/${this.$route.params.id}`);
         })
         .catch(err => {
           console.log(err);
@@ -137,30 +165,28 @@ export default {
           console.log(err);
         });
     },
-     deleteOne(params,model){
-          let url = `/${model}/${params}`
-          console.log(url)
-            axios.delete(url,{
-            headers:{
-                access_token : localStorage.access_token
-            }
-          })
-           .then(({ data }) => {
-              console.log('berhasil')
-              this.getdata()
-             if(model=='question'){
-                this.$router.push(`/`)      
-             }else{
-               this.$router.push(`/question/${this.$route.params.id}`)
-             }                
-           })
-            .catch(err => {
-              console.log(err.responds)
-                   
-              console.log(err)                 
-            })
-
-        }
+    deleteOne(params, model) {
+      let url = `/${model}/${params}`;
+      console.log(url);
+      axios
+        .delete(url, {
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        .then(({ data }) => {
+          console.log("berhasil");
+          this.getdata();
+          if (model == "question") {
+            this.$router.push(`/`);
+          } else {
+            this.$router.push(`/question/${this.$route.params.id}`);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 };
 </script>
