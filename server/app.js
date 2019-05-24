@@ -6,9 +6,9 @@ const port = process.env.PORT || 3000
 const cors = require('cors')
 const router = require('./routes/')
 const MailerJob = require('./cronjob')
-mongoose.connect('mongodb://localhost:27017/hacktivoverflow', { useNewUrlParser: true })
+// mongoose.connect('mongodb://localhost:27017/hacktivoverflow', { useNewUrlParser: true })
 
-// mongoose.connect('mongodb+srv://mrifkyilyas13:sayurkol@cluster0-xt9f0.mongodb.net/test?retryWrites=true',{useNewUrlParser:true})
+mongoose.connect(`mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}@cluster0-xt9f0.mongodb.net/stuckoncode?retryWrites=true`,{useNewUrlParser:true})
 
 
 
